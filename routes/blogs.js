@@ -45,7 +45,7 @@ const sampleBlogs = [{
 ];
 
 /* GET blogs default */
-router.get('/', function (req, res, next) {
+router.get('/', (req, res) => {
     res.json({
         success: true,
         route: "blogs",
@@ -53,21 +53,59 @@ router.get('/', function (req, res, next) {
     });
 });
 
-router.get('/all', function (req, res, next) {
+router.get('/all', (req, res) => {
     res.json(sampleBlogs);
 });
 
-router.get('/single/:blogTitleToGet', function (req, res, next) {
-    res.json({
-        success: true,
-        blogs: sampleBlogs
-    });
+router.get('/single/:blogTitleToGet', (req, res) => {
+    const blogToFind = req.params.blogTitleToGet;
+
+    const blogIndex = sampleBlogs.findIndex((blog) => {
+        if (blog.title === blogToFind){
+            return true;
+        } else {
+            return false;
+        }
+    })
+
+    const foundBlog = sampleBlogs[blogIndex];
+    
+    res.json(foundBlog);
 });
 
-router.delete('/single/:blogTitleToGet', function (req, res, next) {
+router.post('/new-blog', (req,res) => {
+
+    const newBlog = {
+        
+    }
+
+    res.json()
+})
+
+
+
+router.delete('/single/:blogTitleToDelete', (req, res) => {
+    const blogToDelete = req.params.blogTitleToDelete;
+
+    const blogIndex = sampleBlogs.findIndex((blog) => {
+        if (blog.title === blogToDelete){
+            return true;
+        } else {
+            return false;
+        }
+    });
+
+    if (blogIndex < 0){
+        res.json({
+            hasBeenDeleted: false
+        })
+        return;
+    }
+    
+    sampleBlogs.splice(blogIndex, 1);
+    
     res.json({
-        success: true,
-        blogs: sampleBlogs
+        hasBeenDeleted: true
     });
 });
 
