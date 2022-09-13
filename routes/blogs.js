@@ -54,37 +54,104 @@ router.get('/', (req, res) => {
 });
 
 router.get('/all', (req, res) => {
-    res.json(sampleBlogs);
+    res.json({
+        success: true,
+        blogs: sampleBlogs
+    });
 });
 
 router.get('/single/:blogTitleToGet', (req, res) => {
     const blogToFind = req.params.blogTitleToGet;
 
-    const blogIndex = sampleBlogs.findIndex((blog) => {
+    // const blogIndex = sampleBlogs.findIndex((blog) => {
+    //     if (blog.title === blogToFind){
+    //         return true;
+    //     } else {
+    //         return false;
+    //     }
+    // })
+
+    // const foundBlog = sampleBlogs[blogIndex];
+
+    const foundBlog = sampleBlogs.find((blog) => {
         if (blog.title === blogToFind){
             return true;
         } else {
             return false;
         }
-    })
-
-    const foundBlog = sampleBlogs[blogIndex];
+    });
     
-    res.json(foundBlog);
+    res.json({
+        success: true,
+        blog: foundBlog
+    });
 });
 
-router.post('/new-blog', (req,res) => {
+router.post('/new-blog', (req, res) => {
 
     const newBlog = {
-        
+        title: "",
+        text: "",
+        author: "",
+        category: [""],
+        createdAt: new Date(),
+        lastModified: new Date()
     }
 
-    res.json()
+    if (req.body.title === undefined) {
+        res.json({
+            success: false,
+            message: "title is required"
+        })
+        return;
+    } else {
+        newBlog.title = req.body.title
+    }
+
+    if (req.body.text === undefined) {
+        res.json({
+            success: false,
+            message: "text is required"
+        })
+        return;
+    } else {
+        newBlog.text = req.body.text
+    }
+
+    if (req.body.author === undefined) {
+        res.json({
+            success: false,
+            message: "author is required"
+        })
+        return;
+    } else {
+        newBlog.author = req.body.author
+    }
+
+    if (req.body.category === undefined) {
+        res({
+            success: false,
+            message: "category is required"
+        })
+        return;
+    } else {
+        newBlog.category = req.body.category
+    }
+
+    sampleBlogs.push(newBlog)
+
+    res.json({
+        success: true
+    })
 })
 
 
+router.put('/change/:blogToChange', (req, res) => {
+    res.json
+})
 
-router.delete('/single/:blogTitleToDelete', (req, res) => {
+
+router.delete('/delete-single/:blogTitleToDelete', (req, res) => {
     const blogToDelete = req.params.blogTitleToDelete;
 
     const blogIndex = sampleBlogs.findIndex((blog) => {
