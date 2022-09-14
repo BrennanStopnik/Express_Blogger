@@ -49,3 +49,27 @@ ExpressBlogger - Day 1:
 - app.use('/', indexRouter); is importing the routers we define on indexRouter into our server so that we are exposed as routes.
     - the first argument is the base url for this router
     -the second argument is the router variable
+
+
+ExpressBlogger - Day 2:
+- Create a new file /validation/blogs.js. In /validation/blogs.js:
+	- Create a basic validator function for blogData and add that function to the module.exports
+- In /routes/blogs.js:
+	- Import (require) the blogData validator function into /routes/blogs.js
+	- Create one POST route /blogs/create-one to create a new blog post
+		- _Note_: Do not forget to generated createdAt and lastModified in the new blog post
+	- Create one PUT route /blogs/update-one/:blogTitle to update a blog post
+	- Both of the above routes should run validations on the incoming blog post body data BEFORE either creating a new blog post or updating a blog post. If the blog data is invalid, then a message should be sent in the http response indicating which validation failed and why
+- Build out the blogData validator function to check for the following conditions
+	- Title, text and author are required fields and they should be strings
+	- Title and author should be no longer than 40 characters in length (letters + whitespace)
+	- _Stretch Goal_: 
+		- If category is defined and has a length greater than 0:
+		- All the entries must be strings
+		- There can be no more than 10 entries for category 
+		- All categories msut be in the following list of strings:
+			- "Lorem"
+			- "ipsum"
+			- "dolor" 
+			- "sit"
+			- "amet"
