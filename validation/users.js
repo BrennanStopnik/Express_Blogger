@@ -28,20 +28,22 @@ const validateUserData = (userData) => {
         }
     }
     
-    // if (userData.favoriteFoods !== undefined && Array.isArray(userData.favoriteFoods) && userData.favoriteFoods.length > 0) {
-    //     let isFavoriteFoodsString = true
-    //     for (let i = 0; i < userData.favoriteFoods.length; i++){
-    //         if (typeof(userData.favoriteFoods[i]) !== 'string') {
-    //             isFavoriteFoodsString = false
-    //         }
-    //     }
+    if (userData.favoriteFoods !== undefined || !Array.isArray(userData.favoriteFoods) || userData.favoriteFoods.length > 0) {
+        let isFavoriteFoodsString = true
 
-    //     if (isFavoriteFoodsString === false) {
-    //         return {
-    //             isValid: false
-    //         }
-    //     }
-    // } 
+        for (let i = 0; i < userData.favoriteFoods.length; i++){
+            if (typeof(userData.favoriteFoods[i]) !== 'string') {
+                isFavoriteFoodsString = false
+            }
+        }
+
+        if (isFavoriteFoodsString === false) {
+            return {
+                isValid: false,
+                message: "All entrues in isFavoriteFoods must be strings"
+            }
+        }
+    } 
 
     return {
         isValid: true
