@@ -126,9 +126,14 @@ router.post('/create-one', (req, res) => {
 })
 
 
-router.put('/update-one/:blogTitle', (req, res) => {
-    const blogToUpdate = req.params.blogTitle
+router.put('/update-one/:blogTitle', (req, res) => { 
 
+    const title = req.params.blogTitle
+    
+    const text = req.body.text
+    const author = req.body.author
+    const category = req.body.category
+    
     const ogBlogIndex = sampleBlogs.findIndex((blog) => {
         if (blog.title === req.params.blogTitle) {
             return true
@@ -139,9 +144,28 @@ router.put('/update-one/:blogTitle', (req, res) => {
 
     const ogBlog = sampleBlogs[ogBlogIndex]
 
+    const newBlog = {
+        title: ogBlog.title,
+        text,
+        author,
+        category,
+        createdAt: ogBlog.createdAt,
+        lastModified: new Date()
+    }
+
+
+    
     if (ogBlog === undefined) {
         res.json({
             message: "Original blog does not exist"
+        })
+        return;
+    }
+
+    if (blogDataCheck.isValid === false) {
+        res.json({
+            success: false,
+            message: blogDataCheck.message
         })
         return;
     }
