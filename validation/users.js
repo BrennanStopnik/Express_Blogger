@@ -1,27 +1,27 @@
 const validateUserData = (userData) => {
     console.log(userData)
-    if (userData.email === undefined || typeof(userData.email !== "string")) {
+    if (userData.email === undefined || typeof(userData.email) !== "string") {
         return {
             isValid: false,
             message: "Email is required and must be a string"
         }
     } 
     
-    if (userData.firstName === undefined || typeof(userData.firstName !== "string")) {
+    if (userData.firstName === undefined || typeof(userData.firstName) !== "string") {
         return {
             isValid: false,
             message: "First name is required and must be a string"
         }
     }
     
-    if (userData.lastName === undefined || typeof(userData.lastName !== "string")) {
+    if (userData.lastName === undefined || typeof(userData.lastName) !== "string") {
         return {
             isValid: false,
             message: "Last name is required and must be a string"
         }
     }
     
-    if (userData.age !== undefined && typeof(userData.age !== "number")) {
+    if (userData.age !== undefined && typeof(userData.age) !== "number") {
         return {
             isValid: false,
             message: "Age must be a number"
