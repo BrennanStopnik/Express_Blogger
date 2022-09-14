@@ -1,6 +1,8 @@
 var express = require('express');
 var router = express.Router();
 
+var { validateBlogData } = require('../validation/blogs')
+
 
 const sampleBlogs = [{
     title: "dicta",
@@ -87,56 +89,34 @@ router.get('/single/:blogTitleToGet', (req, res) => {
     });
 });
 
-router.post('/new-blog', (req, res) => {
+router.post('/create-one', (req, res) => {
+
+    const title = req.body.title
+    const text = req.body.text
+    const author = req.body.author
+    const category = req.body.category
 
     const newBlog = {
-        title: "",
-        text: "",
-        author: "",
-        category: [""],
+        title,
+        text,
+        author,
+        category,
         createdAt: new Date(),
         lastModified: new Date()
     }
 
-    if (req.body.title === undefined) {
+    const blogDataCheck = validateBlogData(newBlog)
+
+    console.log(blogDataCheck);
+
+    if (blogDataCheck.isValid === false) {
         res.json({
             success: false,
-            message: "title is required"
+            message: blogDataCheck.message
         })
         return;
-    } else {
-        newBlog.title = req.body.title
     }
 
-    if (req.body.text === undefined) {
-        res.json({
-            success: false,
-            message: "text is required"
-        })
-        return;
-    } else {
-        newBlog.text = req.body.text
-    }
-
-    if (req.body.author === undefined) {
-        res.json({
-            success: false,
-            message: "author is required"
-        })
-        return;
-    } else {
-        newBlog.author = req.body.author
-    }
-
-    if (req.body.category === undefined) {
-        res({
-            success: false,
-            message: "category is required"
-        })
-        return;
-    } else {
-        newBlog.category = req.body.category
-    }
 
     sampleBlogs.push(newBlog)
 
@@ -146,8 +126,32 @@ router.post('/new-blog', (req, res) => {
 })
 
 
-router.put('/change/:blogToChange', (req, res) => {
-    res.json
+router.put('/update-one/:blogTitle', (req, res) => {
+    const blogToUpdate = req.params.blogTitle
+
+    const ogBlogIndex = sampleBlogs.findIndex((blog) => {
+        if (blog.title === req.params.blogTitle) {
+            return true
+        } else {
+            return false
+        }
+    })
+
+    const ogBlog = sampleBlogs[ogBlogIndex]
+
+    if (ogBlog === undefined) {
+        res.json({
+            message: "Original blog does not exist"
+        })
+        return;
+    }
+
+    
+
+
+    res.json({
+        success: true
+    })
 })
 
 
