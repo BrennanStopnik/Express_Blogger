@@ -73,3 +73,12 @@ ExpressBlogger - Day 2:
 			- "dolor" 
 			- "sit"
 			- "amet"
+
+
+ExpressIntro Day 3:
+- Implement Day 2 stretch goal with .forEach() or .filter() or both
+	- _Suggestion_: Create individual checks for each condition that you need to account for
+- _Stretch Goal_:
+	- Implement a PUT route using req.params to edit a single blog post in the sampleBlogs
+	- Using query params in the GET /all and GET /single routes, implement the ability to only return certain fields on the blogPost
+		- _Hint_: Array.map() can be used to edit all entries in an array in a single call
