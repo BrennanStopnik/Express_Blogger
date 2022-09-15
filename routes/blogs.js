@@ -56,6 +56,25 @@ router.get('/', (req, res) => {
 });
 
 router.get('/all', (req, res) => {
+    
+    const fields = req.query.fields
+
+    const fieldsArray = fields.split(",")
+
+    const mappedBlogs = sampleBlogs.map((blog) => {
+
+        const blogWithFields = {}
+
+        fieldsArray.forEach((field) => {
+            blogWithFields[field] = blog[field]
+        })
+
+        return blogWithFields
+
+        
+    })
+    
+    
     res.json({
         success: true,
         blogs: sampleBlogs
@@ -129,22 +148,18 @@ router.post('/create-one', (req, res) => {
 router.put('/update-one/:blogTitle', (req, res) => { 
 
     const title = req.params.blogTitle
-    
+
     const text = req.body.text
     const author = req.body.author
     const category = req.body.category
     
     const ogBlogIndex = sampleBlogs.findIndex((blog) => {
-        if (blog.title === req.params.blogTitle) {
-            return true
-        } else {
-            return false
-        }
+        return blog.title === title
     })
 
     const ogBlog = sampleBlogs[ogBlogIndex]
 
-    const newBlog = {
+    const blogData = {
         title: ogBlog.title,
         text,
         author,
@@ -153,25 +168,17 @@ router.put('/update-one/:blogTitle', (req, res) => {
         lastModified: new Date()
     }
 
-
+    const blogDataCheck = validateBlogData(blogData)
     
-    if (ogBlog === undefined) {
-        res.json({
-            message: "Original blog does not exist"
-        })
-        return;
-    }
-
-    if (blogDataCheck.isValid === false) {
+    if (blogDataCheck.isValid === false){
         res.json({
             success: false,
             message: blogDataCheck.message
         })
         return;
     }
-
     
-
+    sampleBlogs[ogBlogIndex] = blogData
 
     res.json({
         success: true
