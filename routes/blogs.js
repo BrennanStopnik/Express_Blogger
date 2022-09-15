@@ -56,28 +56,42 @@ router.get('/', (req, res) => {
 });
 
 router.get('/all', (req, res) => {
-    
+
     const fields = req.query.fields
+    const limit = Number(req.query.limit)
+    const start = Number(req.query.page)
 
-    const fieldsArray = fields.split(",")
+    let blogs = sampleBlogs;
 
-    const mappedBlogs = sampleBlogs.map((blog) => {
+    if (limit !== undefined &&  start !== undefined){
+        const end = start + limit
+        blogs = sampleBlogs.slice(start, end)
+    }
+    
+    if (fields) {
+        const fields = req.query.fields
 
-        const blogWithFields = {}
+        const fieldsArray = fields.split(",")
 
-        fieldsArray.forEach((field) => {
-            blogWithFields[field] = blog[field]
+        const mappedBlogs = sampleBlogs.map((blog) => {
+
+            const blogWithFields = {}
+
+            fieldsArray.forEach((field) => {
+                blogWithFields[field] = blog[field]
+            })
+
+            return blogWithFields
+
+            
         })
-
-        return blogWithFields
-
-        
-    })
+        blogs = mappedBlogs
+    }
     
     
     res.json({
         success: true,
-        blogs: sampleBlogs
+        blogs: blogs
     });
 });
 

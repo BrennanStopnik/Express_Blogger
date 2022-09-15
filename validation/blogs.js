@@ -74,9 +74,6 @@ const validateBlogData = (blogData) => {
         }
     }
 
-
-
-
     return {
         isValid: true
     }
