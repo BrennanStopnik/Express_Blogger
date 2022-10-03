@@ -49,13 +49,13 @@ const validateBlogData = (blogData) => {
         }
     }
 
-    const validCategories = [
-        "lorem",
-		"ipsum",
-		"dolor", 
-		"sit",
-		"amet"
-    ]
+    // const validCategories = [
+    //  "lorem",
+	// 	"ipsum",
+	// 	"dolor", 
+	// 	"sit",
+	// 	"amet"
+    // ]
 
     let isArrayValid = true
 
